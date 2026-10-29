@@ -1,0 +1,27 @@
+# 소스 후보 (tools/eval_sources.py가 실측). role: measure = 실측, reserve = 예비(측정 안 함), rss_fail = RSS 단계에서 탈락
+candidates:
+  - {name: "STAT News", lang: EN, role: measure, url: "https://www.statnews.com/feed/"}
+  - {name: "arXiv (의료 키워드)", lang: EN, role: measure, url: "http://export.arxiv.org/api/query?search_query=(cat:cs.LG+OR+cat:cs.CV+OR+cat:eess.IV)+AND+(abs:medical+OR+abs:clinical)&sortBy=submittedDate&sortOrder=descending&max_results=100"}
+  - {name: "npj Digital Medicine", lang: EN, role: measure, url: "https://www.nature.com/npjdigitalmed.rss"}
+  - {name: "MedCity News", lang: EN, role: measure, url: "https://medcitynews.com/feed/"}
+  - {name: "식약처 보도자료", lang: KO, role: measure, url: "https://www.mfds.go.kr/www/rss/brd.do?brdId=ntc0021"}
+  - {name: "히트뉴스", lang: KO, role: measure, url: "https://www.hitnews.co.kr/rss/allArticle.xml"}
+  - {name: "청년의사", lang: KO, role: measure, url: "https://www.docdocdoc.co.kr/rss/allArticle.xml"}
+  - {name: "더바이오", lang: KO, role: measure, url: "https://www.thebionews.net/rss/allArticle.xml"}
+  # 전체 피드의 적합도가 낮아 AI·디지털헬스 섹션 피드를 추가로 측정
+  - {name: "STAT News · AI 토픽", lang: EN, role: measure, url: "https://www.statnews.com/topic/artificial-intelligence/feed/"}
+  - {name: "MedCity News · AI 태그", lang: EN, role: measure, url: "https://medcitynews.com/tag/artificial-intelligence/feed/"}
+  - {name: "더바이오 · 헬스케어·AI", lang: KO, role: measure, url: "https://www.thebionews.net/rss/S1N4.xml"}
+  - {name: "히트뉴스 · 의료기기", lang: KO, role: measure, url: "https://www.hitnews.co.kr/rss/S2N28.xml"}
+  - {name: "의학신문", lang: KO, role: reserve, url: "http://www.bosa.co.kr/rss/allArticle.xml"}
+  - {name: "의협신문", lang: KO, role: reserve, url: "https://www.doctorsnews.co.kr/rss/allArticle.xml"}
+  - {name: "Endpoints News", lang: EN, role: reserve, url: "https://endpts.com/feed/"}
+  - {name: "Healthcare Dive", lang: EN, role: reserve, url: "https://www.healthcaredive.com/feeds/news/"}
+  - {name: "Fierce Biotech", lang: EN, role: rss_fail, url: "https://www.fiercebiotech.com/rss/xml"}
+  - {name: "MobiHealthNews", lang: EN, role: rss_fail, url: "https://www.mobihealthnews.com/feed"}
+  - {name: "Healthcare IT News", lang: EN, role: rss_fail, url: "https://www.healthcareitnews.com/home/feed"}
+  - {name: "메디게이트뉴스", lang: KO, role: rss_fail, url: "https://www.medigatenews.com/rss/allArticle.xml"}
+  - {name: "메디포뉴스", lang: KO, role: rss_fail, url: "https://www.medifonews.com/rss/allArticle.xml"}
+  - {name: "메디컬타임즈", lang: KO, role: rss_fail, url: "https://www.medicaltimes.com/rss/allArticle.xml"}
+  - {name: "Lancet Digital Health", lang: EN, role: rss_fail, url: "https://www.thelancet.com/rssfeed/landig_current.xml"}
+  - {name: "Hugging Face Blog", lang: EN, role: rss_fail, url: "https://huggingface.co/blog/feed.xml"}

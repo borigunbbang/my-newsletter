@@ -21,14 +21,14 @@ TG_LIMIT = 4096
 KST = dt.timezone(dt.timedelta(hours=9))
 
 
-def headline(drafts: list[dict]) -> str:
+def headline(name: str, drafts: list[dict]) -> str:
     """오늘 기사 전체를 관통하는 흐름 1문장"""
     titles = "\n".join(f"- {d['title']}: {d['summary'][0]}" for d in drafts)
     res = OpenAI().chat.completions.create(
         model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
         messages=[
             {"role": "system", "content": (
-                "헬스케어 AI 뉴스레터의 '오늘의 한 줄'을 쓴다. 아래 기사들만 근거로, "
+                f"'{name}' 뉴스레터의 '오늘의 한 줄'을 쓴다. 아래 기사들만 근거로, "
                 "공통 흐름을 한국어 한 문장(60자 이내)으로. 기사에 없는 사실은 쓰지 않는다.")},
             {"role": "user", "content": titles},
         ],
@@ -56,7 +56,8 @@ def item_message(d: dict) -> str:
 def compose(state: NewsState) -> dict:
     drafts = [state["drafts"][i] for i in state["approved"]]
     today = dt.datetime.now(KST).strftime("%Y-%m-%d")
-    header = f"📰 [{today}] 헬스케어 AI 데일리\n💡 오늘의 한 줄: {html.escape(headline(drafts))}"
+    name = state["config"]["newsletter_name"]
+    header = f"📰 [{today}] {html.escape(name)}\n💡 오늘의 한 줄: {html.escape(headline(name, drafts))}"
     return {"newsletter": {"header": header, "messages": [item_message(d) for d in drafts]}}
 
 

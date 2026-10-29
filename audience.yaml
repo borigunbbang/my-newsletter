@@ -1,5 +1,12 @@
+# 주제를 바꿀 때는 이 파일과 source_candidates.yaml만 고치면 된다 (README "새 주제로 만들기")
 domain: "AI x Healthcare/Bio"
 language: ko
+newsletter_name: "헬스케어 AI 데일리"
+
+# 소스 실측(tools/eval_sources.py)의 주제 적합도 판정 기준
+topic_fit: >
+  헬스케어·바이오 분야에서 AI(머신러닝, 딥러닝, LLM, 알고리즘 기반 의료기기·디지털헬스 포함)를 다루는 기사.
+  AI와 무관한 일반 의료·제약 뉴스는 해당하지 않는다.
 
 persona:
   who: "헬스케어 AI 개발자·취준생 (아이펠 수강생, 주니어 ML 엔지니어)"
@@ -45,6 +52,12 @@ exclude:
 collect:
   # 24h로 실측하니 0건 (RSS 날짜가 날짜 단위, arXiv 공개 지연) → 48h. 재발행은 seen.json이 막음
   window_hours: 48
+
+prelim:  # 예선 PASS/DROP 조건 (중요도 판단 문장 ①②를 구체화)
+  pass:
+    - "① 코드·데이터셋·모델·벤치마크 공개가 명시되거나, 의료 AI 개발자가 흔히 다루는 과제(영상 분할·판독, 임상 NLP·의료 LLM, 생체신호 등)에 바로 가져다 쓸 수 있는 범용 도구·평가 방법"
+    - "② 실제 환자·병원 대상 검증이나 도입, 승인·규제·투자·채용 소식"
+  drop: "헬스케어 적용이 없는 일반 ML, 특정 장비·좁은 물리 모델링처럼 독자가 쓰기 어려운 세부 연구, AI 무관, 홍보성"
 
 selection:
   prelim_batch_size: 10

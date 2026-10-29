@@ -10,6 +10,7 @@ from pathlib import Path
 import feedparser
 import requests
 import trafilatura
+import yaml
 from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel
@@ -18,37 +19,10 @@ ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env")
 
 UA = {"User-Agent": "my-newsletter-source-eval/0.1"}
-ARXIV = ("http://export.arxiv.org/api/query?search_query=(cat:cs.LG+OR+cat:cs.CV+OR+cat:eess.IV)"
-         "+AND+(abs:medical+OR+abs:clinical)&sortBy=submittedDate&sortOrder=descending&max_results=100")
-
-# role: measure = 실측 대상, reserve = 예비(측정 안 함), rss_fail = RSS 단계에서 탈락
-SOURCES = [
-    ("STAT News", "EN", "https://www.statnews.com/feed/", "measure"),
-    ("arXiv (의료 키워드)", "EN", ARXIV, "measure"),
-    ("npj Digital Medicine", "EN", "https://www.nature.com/npjdigitalmed.rss", "measure"),
-    ("MedCity News", "EN", "https://medcitynews.com/feed/", "measure"),
-    ("식약처 보도자료", "KO", "https://www.mfds.go.kr/www/rss/brd.do?brdId=ntc0021", "measure"),
-    ("히트뉴스", "KO", "https://www.hitnews.co.kr/rss/allArticle.xml", "measure"),
-    ("청년의사", "KO", "https://www.docdocdoc.co.kr/rss/allArticle.xml", "measure"),
-    ("더바이오", "KO", "https://www.thebionews.net/rss/allArticle.xml", "measure"),
-    # 전체 피드의 적합도가 낮아 AI·디지털헬스 섹션 피드를 추가로 측정
-    ("STAT News · AI 토픽", "EN", "https://www.statnews.com/topic/artificial-intelligence/feed/", "measure"),
-    ("MedCity News · AI 태그", "EN", "https://medcitynews.com/tag/artificial-intelligence/feed/", "measure"),
-    ("더바이오 · 헬스케어·AI", "KO", "https://www.thebionews.net/rss/S1N4.xml", "measure"),
-    ("히트뉴스 · 의료기기", "KO", "https://www.hitnews.co.kr/rss/S2N28.xml", "measure"),
-    ("의학신문", "KO", "http://www.bosa.co.kr/rss/allArticle.xml", "reserve"),
-    ("의협신문", "KO", "https://www.doctorsnews.co.kr/rss/allArticle.xml", "reserve"),
-    ("Endpoints News", "EN", "https://endpts.com/feed/", "reserve"),
-    ("Healthcare Dive", "EN", "https://www.healthcaredive.com/feeds/news/", "reserve"),
-    ("Fierce Biotech", "EN", "https://www.fiercebiotech.com/rss/xml", "rss_fail"),
-    ("MobiHealthNews", "EN", "https://www.mobihealthnews.com/feed", "rss_fail"),
-    ("Healthcare IT News", "EN", "https://www.healthcareitnews.com/home/feed", "rss_fail"),
-    ("메디게이트뉴스", "KO", "https://www.medigatenews.com/rss/allArticle.xml", "rss_fail"),
-    ("메디포뉴스", "KO", "https://www.medifonews.com/rss/allArticle.xml", "rss_fail"),
-    ("메디컬타임즈", "KO", "https://www.medicaltimes.com/rss/allArticle.xml", "rss_fail"),
-    ("Lancet Digital Health", "EN", "https://www.thelancet.com/rssfeed/landig_current.xml", "rss_fail"),
-    ("Hugging Face Blog", "EN", "https://huggingface.co/blog/feed.xml", "rss_fail"),
-]
+# 주제는 audience.yaml(topic_fit), 후보 목록은 source_candidates.yaml에서 읽는다
+CONFIG = yaml.safe_load((ROOT / "audience.yaml").read_text(encoding="utf-8"))
+SOURCES = [(c["name"], c["lang"], c["url"], c["role"])
+           for c in yaml.safe_load((ROOT / "source_candidates.yaml").read_text(encoding="utf-8"))["candidates"]]
 
 MIN_FREQ, MIN_ACCESS = 7, 0.8
 # 처음엔 적합도 비율 ≥ 30%였으나, 일반 의료 매체는 비율이 낮아도 AI 기사 절대량이 많고
@@ -115,8 +89,7 @@ def topic_fit(client, entries):
         model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
         messages=[
             {"role": "system", "content": (
-                "각 기사가 '헬스케어·바이오 분야에서 AI(머신러닝, 딥러닝, LLM, 알고리즘 기반 "
-                "의료기기·디지털헬스 포함)'를 다루는지 판정한다. AI와 무관한 일반 의료·제약 뉴스는 fit=false. "
+                f"각 기사가 다음 주제에 해당하는지 판정한다(해당하면 fit=true): {CONFIG['topic_fit'].strip()} "
                 "reason은 한국어 한 줄.")},
             {"role": "user", "content": "\n".join(items)},
         ],

@@ -41,14 +41,10 @@ def label_batch(client, cfg: dict, batch: list[dict]) -> dict[str, PrelimLabel]:
         model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
         messages=[
             {"role": "system", "content": (
-                "헬스케어 AI 뉴스레터의 예선 심사관이다. 제목과 요약만 보고 중요도 판단 문장을 적용한다.\n"
+                f"'{cfg['newsletter_name']}' 뉴스레터의 예선 심사관이다. 제목과 요약만 보고 중요도 판단 문장을 적용한다.\n"
                 + persona_prompt(cfg) +
-                "\nPASS 조건 (하나라도 해당):"
-                "\n ① 코드·데이터셋·모델·벤치마크 공개가 명시되거나, 의료 AI 개발자가 흔히 다루는 과제"
-                "(영상 분할·판독, 임상 NLP·의료 LLM, 생체신호 등)에 바로 가져다 쓸 수 있는 범용 도구·평가 방법"
-                "\n ② 실제 환자·병원 대상 검증이나 도입, 승인·규제·투자·채용 소식"
-                "\nDROP 조건: 헬스케어 적용이 없는 일반 ML, 특정 장비·좁은 물리 모델링처럼 독자가 쓰기 어려운 세부 연구, "
-                "AI 무관, 홍보성 (reason_type=none)"
+                "\nPASS 조건 (하나라도 해당):\n" + "\n".join(f" {p}" for p in cfg["prelim"]["pass"]) +
+                f"\nDROP 조건: {cfg['prelim']['drop']} (reason_type=none)"
                 "\n모든 기사에 대해 대괄호 안 id를 그대로 적고, reason은 한국어 한 줄.")},
             {"role": "user", "content": listing},
         ],
@@ -124,7 +120,8 @@ def score_items(client, state: NewsState, items: list[dict]) -> dict[str, Score]
         model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
         messages=[
             {"role": "system", "content": (
-                "헬스케어 AI 뉴스레터의 본선 심사관이다. 오늘 후보들을 서로 비교해 각 축을 1~5점으로 매긴다.\n"
+                f"'{state['config']['newsletter_name']}' 뉴스레터의 본선 심사관이다. "
+                "오늘 후보들을 서로 비교해 각 축을 1~5점으로 매긴다.\n"
                 + persona_prompt(state["config"]) +
                 "\npracticality: 독자가 이번 주에 직접 써볼 수 있는가(코드·데이터·모델 공개)"
                 "\nnovelty: 새로운 사실·방법인가\nimpact: 독자의 커리어·프로젝트·시장에 미치는 영향"

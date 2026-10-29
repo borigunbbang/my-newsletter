@@ -37,7 +37,8 @@ def summarize(state: NewsState) -> dict:
             model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
             messages=[
                 {"role": "system", "content": (
-                    "헬스케어 AI 개발자·취준생을 위한 뉴스레터 편집자다. 아래 본문에 있는 사실만 쓴다.\n"
+                    f"'{state['config']['newsletter_name']}' 뉴스레터 편집자다. "
+                    f"독자: {state['config']['persona']['who']}. 아래 본문에 있는 사실만 쓴다.\n"
                     "- title: 한국어 제목 (영문 기사도 번역, 40자 이내)\n"
                     "- summary: 핵심 요약 정확히 3문장, 한국어. 수치·날짜·고유명사(기관·제품·모델명)는 원문 표기 그대로\n"
                     "- dev_action: 독자가 이번 주에 해볼 수 있는 것 1개 (본문 근거가 없으면 '관련 공개 자료 확인' 수준으로)\n"
