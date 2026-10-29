@@ -1,0 +1,58 @@
+domain: "AI x Healthcare/Bio"
+language: ko
+
+persona:
+  who: "헬스케어 AI 개발자·취준생 (아이펠 수강생, 주니어 ML 엔지니어)"
+  when: "매일 오전 8시경, 모바일 텔레그램, 5분 이내"
+  needs:
+    - "이번 주에 직접 써볼 수 있는 모델·데이터셋·코드·벤치마크"
+    - "커리어·프로젝트 방향 판단에 영향을 주는 승인·투자·규제·채용 소식"
+
+importance_question: >
+  헬스케어 AI 개발자·취준생이 ① 이번 주 안에 직접 써볼 수 있거나(모델·데이터·코드 공개)
+  ② 커리어·프로젝트 방향 판단을 바꾸는(승인·투자·규제·채용) 새로운 사실을 담고 있는가?
+
+# 채택 소스 (근거: store/source_eval.json — 빈도 ≥ 7/주, 접근성 ≥ 80%, 주간 적합 기사 ≥ 7)
+sources:
+  - name: "arXiv (의료 키워드)"
+    lang: EN
+    kind: arxiv
+    window_hours: 72  # 제출 후 1~2일 뒤 공개되므로 기본보다 길게
+    url: "http://export.arxiv.org/api/query?search_query=(cat:cs.LG+OR+cat:cs.CV+OR+cat:eess.IV)+AND+(abs:medical+OR+abs:clinical)&sortBy=submittedDate&sortOrder=descending&max_results=100"
+  - name: "더바이오"
+    lang: KO
+    kind: rss
+    url: "https://www.thebionews.net/rss/allArticle.xml"
+  - name: "청년의사"
+    lang: KO
+    kind: rss
+    url: "https://www.docdocdoc.co.kr/rss/allArticle.xml"
+
+exclude:
+  sources:  # 과제 제외 목록
+    - https://openai.com/blog/rss.xml
+    - https://deepmind.google/blog/rss.xml
+    - https://techcrunch.com/category/artificial-intelligence/feed/
+    - https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
+    - https://www.technologyreview.com/feed/
+    - https://www.aitimes.com/rss/allArticle.xml
+  conditions:
+    - "AI와 무관한 일반 의료·제약 뉴스 (예선 DROP)"
+    - "보도 원문 없이 홍보성 문구만 있는 기사"
+    - "이미 발행한 URL (store/seen.json)"
+    - "수집 기간(collect.window_hours) 이전 기사"
+
+collect:
+  # 24h로 실측하니 0건 (RSS 날짜가 날짜 단위, arXiv 공개 지연) → 48h. 재발행은 seen.json이 막음
+  window_hours: 48
+
+selection:
+  prelim_batch_size: 10
+  final_axes: [practicality, novelty, impact, credibility]  # 각 1~5
+  final_count: {min: 3, max: 5}
+  max_per_source: 2
+
+review:
+  max_regenerations: 2
+  max_replacements: 2
+  min_publish: 3

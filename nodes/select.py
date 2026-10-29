@@ -1,0 +1,173 @@
+"""prelim_screen: 예선(batch PASS/DROP) / extract_body: 본문 추출 / final_rank: 본선(4축 상대 비교)"""
+import os
+import time
+from typing import Literal
+
+import requests
+import trafilatura
+from openai import OpenAI
+from pydantic import BaseModel
+
+import metrics
+from state import NewsState
+
+UA = {"User-Agent": "my-newsletter/0.1"}
+MIN_BODY = 500
+BODY_FOR_RANK = 2000  # 본선 프롬프트에 넣는 본문 앞부분 길이
+
+
+def persona_prompt(cfg: dict) -> str:
+    p = cfg["persona"]
+    return (f"독자: {p['who']}\n독자가 원하는 것: {' / '.join(p['needs'])}\n"
+            f"중요도 판단 문장: {cfg['importance_question'].strip()}\n"
+            f"제외 조건: {' / '.join(cfg['exclude']['conditions'])}")
+
+
+class PrelimLabel(BaseModel):
+    id: str
+    label: Literal["PASS", "DROP"]
+    reason_type: Literal["①", "②", "none"]
+    reason: str
+
+
+class PrelimOut(BaseModel):
+    labels: list[PrelimLabel]
+
+
+def label_batch(client, cfg: dict, batch: list[dict]) -> dict[str, PrelimLabel]:
+    keys = {f"A{n}": it["id"] for n, it in enumerate(batch, 1)}  # 짧은 키로 묻고 되돌림 (score_items 참고)
+    listing = "\n".join(f"[{k}] ({it['source']}) {it['title']} — {it['summary'][:400]}" for k, it in zip(keys, batch))
+    res = client.chat.completions.parse(
+        model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
+        messages=[
+            {"role": "system", "content": (
+                "헬스케어 AI 뉴스레터의 예선 심사관이다. 제목과 요약만 보고 중요도 판단 문장을 적용한다.\n"
+                + persona_prompt(cfg) +
+                "\nPASS 조건 (하나라도 해당):"
+                "\n ① 코드·데이터셋·모델·벤치마크 공개가 명시되거나, 의료 AI 개발자가 흔히 다루는 과제"
+                "(영상 분할·판독, 임상 NLP·의료 LLM, 생체신호 등)에 바로 가져다 쓸 수 있는 범용 도구·평가 방법"
+                "\n ② 실제 환자·병원 대상 검증이나 도입, 승인·규제·투자·채용 소식"
+                "\nDROP 조건: 헬스케어 적용이 없는 일반 ML, 특정 장비·좁은 물리 모델링처럼 독자가 쓰기 어려운 세부 연구, "
+                "AI 무관, 홍보성 (reason_type=none)"
+                "\n모든 기사에 대해 대괄호 안 id를 그대로 적고, reason은 한국어 한 줄.")},
+            {"role": "user", "content": listing},
+        ],
+        response_format=PrelimOut,
+    )
+    out = {}
+    for l in res.choices[0].message.parsed.labels:
+        item_id = keys.get(l.id.strip("[] "))
+        if item_id and item_id not in out:
+            out[item_id] = l
+    return out
+
+
+def prelim_screen(state: NewsState) -> dict:
+    cfg, items = state["config"], state["candidates"]
+    size = cfg["selection"]["prelim_batch_size"]
+    client, labels = OpenAI(), []
+    for b, start in enumerate(range(0, len(items), size), 1):
+        batch = items[start:start + size]
+        got = label_batch(client, cfg, batch)
+        missing = [it for it in batch if it["id"] not in got]
+        if missing:  # 라벨이 빠진 기사만 한 번 더
+            got |= label_batch(client, cfg, missing)
+        for it in batch:
+            l = got.get(it["id"])
+            row = ({"item_id": it["id"], "label": l.label, "reason_type": l.reason_type, "reason": l.reason, "batch_no": b}
+                   if l else {"item_id": it["id"], "label": "DROP", "reason_type": "none", "reason": "라벨 누락", "batch_no": b})
+            labels.append(row)
+            metrics.log(state["run_id"], "prelim", url=it["url"], source=it["source"], **row)
+    return {"prelim_labels": labels}
+
+
+def extract_body(state: NewsState) -> dict:
+    passed = {l["item_id"] for l in state["prelim_labels"] if l["label"] == "PASS"}
+    bodies = {}
+    for it in state["candidates"]:
+        if it["id"] not in passed:
+            continue
+        text = None
+        try:
+            r = requests.get(it["url"], headers=UA, timeout=20)
+            if r.status_code == 200:
+                text = trafilatura.extract(r.text)
+        except requests.RequestException:
+            pass
+        ok = bool(text and len(text) >= MIN_BODY)
+        if ok:
+            bodies[it["id"]] = text
+        metrics.log(state["run_id"], "extract", item_id=it["id"], ok=ok, chars=len(text or ""),
+                    **({} if ok else {"drop_reason": "extract_fail"}))
+        time.sleep(1)
+    return {"bodies": bodies}
+
+
+class Score(BaseModel):
+    id: str
+    practicality: int
+    novelty: int
+    impact: int
+    credibility: int
+
+
+class RankOut(BaseModel):
+    scores: list[Score]
+
+
+def score_items(client, state: NewsState, items: list[dict]) -> dict[str, Score]:
+    # 긴 해시 id는 옮겨 적다 틀리는 경우가 있어 A1, A2… 짧은 키로 묻고 되돌린다
+    keys = {f"A{n}": it["id"] for n, it in enumerate(items, 1)}
+    listing = "\n\n".join(f"[{k}] ({it['source']}) {it['title']}\n{state['bodies'][it['id']][:BODY_FOR_RANK]}"
+                          for k, it in zip(keys, items))
+    res = client.chat.completions.parse(
+        model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
+        messages=[
+            {"role": "system", "content": (
+                "헬스케어 AI 뉴스레터의 본선 심사관이다. 오늘 후보들을 서로 비교해 각 축을 1~5점으로 매긴다.\n"
+                + persona_prompt(state["config"]) +
+                "\npracticality: 독자가 이번 주에 직접 써볼 수 있는가(코드·데이터·모델 공개)"
+                "\nnovelty: 새로운 사실·방법인가\nimpact: 독자의 커리어·프로젝트·시장에 미치는 영향"
+                "\ncredibility: 근거 수준(동료심사 > 프리프린트 > 보도자료), 수치·출처의 구체성"
+                "\n모든 후보를 한 번씩만 채점하고, 대괄호 안 id를 그대로 적는다.")},
+            {"role": "user", "content": listing},
+        ],
+        response_format=RankOut,
+    )
+    out = {}
+    for s in res.choices[0].message.parsed.scores:
+        item_id = keys.get(s.id.strip("[] "))
+        if item_id and item_id not in out:  # 없는 키·중복 채점 무시
+            out[item_id] = s
+    return out
+
+
+def final_rank(state: NewsState) -> dict:
+    cfg = state["config"]["selection"]
+    items = [it for it in state["candidates"] if it["id"] in state["bodies"]]
+    if not items:
+        return {"ranked": [], "selected": [], "reserves": []}
+    client = OpenAI()
+    scores = score_items(client, state, items)
+    missing = [it for it in items if it["id"] not in scores]
+    if missing:  # 점수가 빠진 기사만 한 번 더
+        scores |= score_items(client, state, missing)
+    ranked = []
+    for it in items:
+        if s := scores.get(it["id"]):
+            axes = s.model_dump(exclude={"id"})
+            ranked.append({"item_id": it["id"], "source": it["source"], "scores": axes, "total": sum(axes.values())})
+    ranked.sort(key=lambda r: -r["total"])
+
+    selected, per_source = [], {}
+    for r in ranked:
+        if len(selected) < cfg["final_count"]["max"] and per_source.get(r["source"], 0) < cfg["max_per_source"]:
+            selected.append(r["item_id"])
+            per_source[r["source"]] = per_source.get(r["source"], 0) + 1
+    # 예비 후보도 소스당 제한을 지켜야 대체 후 규칙이 깨지지 않으므로 대체 시점에 다시 확인
+    reserves = [r["item_id"] for r in ranked if r["item_id"] not in selected]
+
+    for rank, r in enumerate(ranked, 1):
+        metrics.log(state["run_id"], "final", item_id=r["item_id"], scores=r["scores"], total=r["total"],
+                    rank=rank, selected=r["item_id"] in selected, reserve=r["item_id"] in reserves)
+    return {"ranked": ranked, "selected": selected, "reserves": reserves}

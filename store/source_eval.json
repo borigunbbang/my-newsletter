@@ -1,0 +1,996 @@
+{
+  "measured_at": "2026-10-29T06:02:28.744744+00:00",
+  "criteria": {
+    "freq_7d_min": 7,
+    "access_rate_min": 0.8,
+    "fit_weekly_min": 7,
+    "extract_sample": 10,
+    "extract_min_chars": 500,
+    "fit_sample": 20
+  },
+  "sources": [
+    {
+      "name": "STAT News",
+      "lang": "EN",
+      "url": "https://www.statnews.com/feed/",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 20,
+      "freq_7d": 20,
+      "access_rate": 1.0,
+      "topic_fit": 0.1,
+      "fit_samples": [
+        {
+          "title": "STAT+: Lawmaker wants government watchdog to probe TrumpRx over claims about drug savings",
+          "fit": false,
+          "reason": "TrumpRx의 비용 절감 주장 조사 관련 기사로 AI(머신러닝/딥러닝/LLM/알고리즘 의료기기 등) 언급 없음."
+        },
+        {
+          "title": "STAT+: HHS moves to allow compounding of some unapproved peptides",
+          "fit": false,
+          "reason": "펩타이드 조제 허용 움직임에 대한 보도로 AI 기술과 무관함."
+        },
+        {
+          "title": "STAT+: Senate candidate El-Sayed wants to ‘grill’ RFK Jr., calls him the ‘most incompetent HHS secretary ever’",
+          "fit": false,
+          "reason": "후보자·정치·공중보건 배경 관련 기사로 AI 언급 없음."
+        },
+        {
+          "title": "STAT+: Why every health care AI company must face Epic",
+          "fit": true,
+          "reason": "제목과 요약에서 Epic의 시장지배가 헬스케어 AI 기업과 AI 도입에 미치는 영향을 다룸."
+        },
+        {
+          "title": "STAT+: Pharmalittle: We’re reading about 340B battles, new results for a Lilly weight loss drug, and more",
+          "fit": false,
+          "reason": "340B 분쟁 및 약 관련 소식 모음으로 AI 관련 내용 없음."
+        },
+        {
+          "title": "STAT+: Lilly’s triple-G drug beats Ozempic in head-to-head study",
+          "fit": false,
+          "reason": "당뇨·체중감소 약의 임상결과 보도로 AI 기술과 무관함."
+        },
+        {
+          "title": "What has actually caused the decline in drug overdose deaths?",
+          "fit": false,
+          "reason": "약물 과다복용 사망률 감소 원인 분석 기사로 AI 언급 없음."
+        },
+        {
+          "title": "STAT+: Lilly says ‘triple-G’ drug beat Novo’s Ozempic in diabetes study",
+          "fit": false,
+          "reason": "Lilly 약물 임상 결과 보도로 AI 관련 내용 아님."
+        },
+        {
+          "title": "Opinion: How pediatricians like me are helping families stay calm and informed about measles",
+          "fit": false,
+          "reason": "홍역 관련 소아과 의견글로 AI 기술과 무관함."
+        },
+        {
+          "title": "Have you been impacted by Epic’s actions?",
+          "fit": false,
+          "reason": "Epic의 행동에 대한 경험 수집 요청이지만 본문 요약에는 AI 관련 언급이 없음."
+        },
+        {
+          "title": "Opinion: Freezing my eggs showed me just how anti-feminist the fertility industry can be",
+          "fit": false,
+          "reason": "난자 동결 경험 칼럼으로 AI 관련 내용 아님."
+        },
+        {
+          "title": "STAT+: As Epic’s dominance grows, its iron grip is choking innovation in health technology",
+          "fit": true,
+          "reason": "Epic의 데이터 접근 차단이 건강기술·소프트웨어 개발·AI 혁신을 저해한다는 조사 보도임."
+        },
+        {
+          "title": "STAT+: Missouri AG warns Lilly to stop requiring data from hospitals seeking 340B drug discounts",
+          "fit": false,
+          "reason": "Lilly와 병원 간 데이터 제출 요구 관련 법적 경고 보도로 AI 언급 없음."
+        },
+        {
+          "title": "STAT+: After two deaths in autoimmune cell therapy trial, Artiva is shutting down",
+          "fit": false,
+          "reason": "자가면역 세포치료 임상사고 관련 보도로 AI 기술과 무관함."
+        },
+        {
+          "title": "STAT+: FDA offers new details on quicker approval pathway for personalized gene therapies",
+          "fit": false,
+          "reason": "맞춤형 유전자치료 신속 승인 경로 관련 규제 보도로 AI 내용 아님."
+        },
+        {
+          "title": "STAT+: RFK Jr. goes for broke in Iowa",
+          "fit": false,
+          "reason": "정치 캠페인 및 바이오 투자 규정 언급 기사로 AI 관련 없음."
+        },
+        {
+          "title": "STAT+: Nonprofit resurrects shelved gene therapy after startup shuts down",
+          "fit": false,
+          "reason": "유전자치료 프로그램 부활 보도로 AI 기술과 무관함."
+        },
+        {
+          "title": "STAT+: Pharmalittle: We’re reading about a Novo setback in court, a House probe into big PBMs, and more",
+          "fit": false,
+          "reason": "제약업계 법적·정책 이슈 소식 모음으로 AI 언급 없음."
+        },
+        {
+          "title": "A possible treatment for brain-eating amoebas, found in the sea",
+          "fit": false,
+          "reason": "해양 화합물 신약 탐색 연구 보도로 AI 기술과 무관함."
+        },
+        {
+          "title": "Opinion: Emergency pediatric care is now in permanent crisis mode",
+          "fit": false,
+          "reason": "응급 소아진료 위기 관련 의견글로 AI 내용 아님."
+        }
+      ],
+      "adopted": false,
+      "reject_reasons": [
+        "주간 적합 기사 2.0건 < 7"
+      ],
+      "fit_weekly": 2.0
+    },
+    {
+      "name": "arXiv (의료 키워드)",
+      "lang": "EN",
+      "url": "http://export.arxiv.org/api/query?search_query=(cat:cs.LG+OR+cat:cs.CV+OR+cat:eess.IV)+AND+(abs:medical+OR+abs:clinical)&sortBy=submittedDate&sortOrder=descending&max_results=100",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 100,
+      "freq_7d": 83,
+      "access_rate": 1.0,
+      "topic_fit": 0.85,
+      "fit_samples": [
+        {
+          "title": "When uncertainty quantification fails: structural vulnerabilities and corrections for selective prediction under clinical class imbalance",
+          "fit": true,
+          "reason": "선택적 예측과 불확실성 정량화를 다루는 임상 인공지능(머신러닝) 연구."
+        },
+        {
+          "title": "Segmentation Confidence for Arbitrary CNNs",
+          "fit": true,
+          "reason": "의료 영상 분할용 CNN의 예측 불확실성(딥러닝) 추정 방법 연구."
+        },
+        {
+          "title": "CTBakeGS: training-free baking of photorealistic CT volume renderings into 3D Gaussian splats",
+          "fit": false,
+          "reason": "CT 볼륨 렌더링·그래픽스(3D Gaussian splatting) 기술 중심으로 ML/AI 언급 없음."
+        },
+        {
+          "title": "Retrospective macromolecular pool fraction mapping from conventional clinical MRI: a physics-guided self-supervised deep learning framework",
+          "fit": true,
+          "reason": "물리 기반 자기지도 학습(딥러닝)을 이용한 영상 바이오마커 재구성 연구."
+        },
+        {
+          "title": "INTR++: INterpretable TRansformer with better Accuracy, Interpretability, and Adaptability",
+          "fit": true,
+          "reason": "Transformer 계열의 해석가능 모델 개선을 다루는 딥러닝 연구."
+        },
+        {
+          "title": "Systematic Morphometric Brain Autoencoding for Representation Learning in Neurodegenerative Diseases",
+          "fit": true,
+          "reason": "뇌 MRI에서 오토인코더·표현학습 등 딥러닝 기반 방법을 다룸."
+        },
+        {
+          "title": "Interpretable Deep Learning Models for Breast Cancer Diagnosis Using Medical Imaging",
+          "fit": true,
+          "reason": "유방암 진단을 위한 여러 딥러닝 모델 벤치마킹 연구."
+        },
+        {
+          "title": "Dense Representation Learning and Differentiable Shape Modeling for Spine Landmark Detection",
+          "fit": true,
+          "reason": "랜드마크 검출을 위한 표현학습·대조학습(딥러닝) 접근을 적용한 연구."
+        },
+        {
+          "title": "Identity or Evidence? Auditing Evidence Dependence in Agentic Life-Science Benchmarks",
+          "fit": true,
+          "reason": "에이전트형 생명과학 벤치마크의 증거 의존성 평가로 LLM/AI 관련 연구."
+        },
+        {
+          "title": "Proposing Better Rollouts for On-Policy Distillation",
+          "fit": true,
+          "reason": "언어모델 후속학습(온폴리시 증류)을 다루는 연구로 LLM/ML 관련."
+        },
+        {
+          "title": "Reliability-Aware Short-Term Glycemic Risk Prediction Using an Anchor-Based Comparative Framework of Sequence, Multimodal, and State-Updating Digital-",
+          "fit": true,
+          "reason": "단기 혈당 위험 예측을 위한 시퀀스·멀티모달 머신러닝 비교·벤치마크 연구."
+        },
+        {
+          "title": "Enhancing Clinical Classifier Robustness with Deep Representation Learning Based OOD Detection on DNA Methylation Data",
+          "fit": true,
+          "reason": "딥 표현학습 기반 OOD 탐지로 임상 분류기(딥러닝) 강건성 향상 연구."
+        },
+        {
+          "title": "MedVTok: A General-Purpose Medical Visual Tokenizer",
+          "fit": true,
+          "reason": "멀티모달 의료 AI를 위한 시각 토크나이저 설계로 의료용 AI 기술 연구."
+        },
+        {
+          "title": "Beyond Physical Illness: Can Clinical Narratives Reveal Emerging Mental Health Risks in Chronically Ill Patients?",
+          "fit": false,
+          "reason": "임상 내러티브 기반 정신건강 리스크 연구이나 AI/ML 적용 여부가 명시되지 않음."
+        },
+        {
+          "title": "Can JEV Support Clinical Trial Criteria Assessment?",
+          "fit": true,
+          "reason": "임상 시험 기준 평가에 쓰이는 의사결정 모델(JEV) 비교로 알고리즘 기반 모델 연구."
+        },
+        {
+          "title": "MedJev: Evaluating Zero-Shot System-One Decision Making in Medicine",
+          "fit": true,
+          "reason": "MedJev 등 시스템 원 의사결정 모델의 제로샷 평가로 AI/모델 연구임."
+        },
+        {
+          "title": "Synthetic Deformable Tubular Benchmark: A mechanically annotated dataset for evaluating deformable 3D reconstruction",
+          "fit": false,
+          "reason": "변형 3D 재구성 벤치마크(컴퓨터 비전)로 의료·바이오 도메인 적용이 명시되지 않음."
+        },
+        {
+          "title": "OneEEG: A Unified Signal-Visual Multimodal Language Model with Task-Aware Mixture of Projectors for Multi-Task EEG Understanding",
+          "fit": true,
+          "reason": "EEG 임상 이해를 위한 다중모달 대형언어모델(MLLM) 적용 연구."
+        },
+        {
+          "title": "Targeted Deep Regression - Initial Applications in Whole-Body Water-Fat MRI in UK Biobank",
+          "fit": true,
+          "reason": "Whole-body MRI 영상 분석에 신경망(딥러닝) 기반 자동화 적용 사례 연구."
+        },
+        {
+          "title": "Low-rank MERA Decomposition of 3D OCT Image Volume for Compression, Denoising, Feature Extraction and Diagnosis of Retinal Diseases",
+          "fit": true,
+          "reason": "3D OCT의 저랭크 분해를 이용한 압축·노이즈제거·특징추출 및 진단 적용으로 알고리즘/의료영상 분석 관련 연구."
+        }
+      ],
+      "adopted": true,
+      "reject_reasons": [],
+      "fit_weekly": 70.5
+    },
+    {
+      "name": "npj Digital Medicine",
+      "lang": "EN",
+      "url": "https://www.nature.com/npjdigitalmed.rss",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 8,
+      "freq_7d": 8,
+      "access_rate": 1.0,
+      "topic_fit": 0.75,
+      "fit_samples": [
+        {
+          "title": "A physics-informed peripheral hemodynamic digital twin for personalized estimation of arterial stiffness",
+          "fit": true,
+          "reason": "physics-informed 디지털 트윈은 물리기반 신경망 등 AI/머신러닝 기법을 활용하는 것으로 AI 관련 연구임."
+        },
+        {
+          "title": "Radiographer fracture detection with and without AI assistance in prospective emergency department use",
+          "fit": true,
+          "reason": "AI 보조 유무를 비교하는 골절 탐지 연구로 명시적으로 AI(판독 보조)를 다룸."
+        },
+        {
+          "title": "An interpretable graph reasoning framework for enhanced diagnosis in fundus fluorescein angiography",
+          "fit": true,
+          "reason": "그래프 추론 프레임워크는 그래프 기반 ML/딥러닝 진단 알고리즘을 다루는 AI 연구임."
+        },
+        {
+          "title": "Performance of artificial intelligence for fracture detection: an umbrella review and second-order-meta-analysis",
+          "fit": true,
+          "reason": "골절 검출을 위한 인공지능의 성능을 종합적으로 검토하는 리뷰 연구임."
+        },
+        {
+          "title": "Scalable drift monitoring in medical imaging AI",
+          "fit": true,
+          "reason": "의료 영상 AI의 성능 저하(드리프트) 모니터링 기법을 다루는 연구로 AI 관련임."
+        },
+        {
+          "title": "Mobile application-based digital therapeutics for frozen shoulder rehabilitation: a single-center, randomized controlled pilot study",
+          "fit": false,
+          "reason": "모바일 앱 기반 디지털 치료 시도이나 제목에 AI/ML·알고리즘 기반 요소 언급이 없어 일반 디지털헬스 연구로 판단됨."
+        },
+        {
+          "title": "Systemwide adoption patterns of ambient AI scribe technology in an integrated academic health system",
+          "fit": true,
+          "reason": "ambient AI scribe 기술의 전사/보조 기능 도입을 다루는 연구로 명백히 AI 관련임."
+        },
+        {
+          "title": "Multicentre benchmark of PSMA PET/CT and mpMRI fusion for non-invasive clinically significant prostate cancer diagnosis",
+          "fit": false,
+          "reason": "PSMA PET/CT와 mpMRI 융합의 벤치마크 연구로, 제목에 AI/ML 언급이 없어 비-AI 영상 비교 연구로 판단됨."
+        }
+      ],
+      "adopted": false,
+      "reject_reasons": [
+        "주간 적합 기사 6.0건 < 7"
+      ],
+      "fit_weekly": 6.0
+    },
+    {
+      "name": "MedCity News",
+      "lang": "EN",
+      "url": "https://medcitynews.com/feed/",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 30,
+      "freq_7d": 26,
+      "access_rate": 1.0,
+      "topic_fit": 0.2,
+      "fit_samples": [
+        {
+          "title": "Senators Investigate Insurers’ Role in Removing Thousands from ACA Coverage",
+          "fit": false,
+          "reason": "보험·ACA 관련 조사 기사로 AI나 알고리즘 언급이 없음."
+        },
+        {
+          "title": "Eli Lilly’s ‘Triple-G’ Drug Tops Ozempic in Head-to-Head Type 2 Diabetes Trial",
+          "fit": false,
+          "reason": "신약 임상 결과 보도이며 AI/머신러닝 관련 내용이 아님."
+        },
+        {
+          "title": "Ahead of Midterms, HFMA Calls for Cross-Sector Action on Healthcare Affordability",
+          "fit": false,
+          "reason": "의료비 부담·재무 관련 논의로 AI 언급 없음."
+        },
+        {
+          "title": "Work Requirements Put New Pressure On Medicaid Member Retention",
+          "fit": false,
+          "reason": "멤버 유지와 데이터 활용 언급은 있으나 AI/ML이 명시적으로 나오지 않음."
+        },
+        {
+          "title": "How Can Hospitals and Pharmacists Collaborate on Effective Stewardship Programs for Opioids and Antibiotics?",
+          "fit": false,
+          "reason": "병원·약국 협업 웨비나 소개로 AI 관련 내용이 없음."
+        },
+        {
+          "title": "Willow Acquires 2 Women’s Health Companies",
+          "fit": false,
+          "reason": "기업 인수 보도로 AI 관련 내용이 포함되어 있지 않음."
+        },
+        {
+          "title": "Patient Deaths and Data Shortfall Spell the End for Cell Therapy Biotech Artiva",
+          "fit": false,
+          "reason": "세포치료 안전 및 사망 사례 보도로 AI 관련 아님."
+        },
+        {
+          "title": "ClarityCare Raises $16.5M to Speed Up Prior Authorizations",
+          "fit": true,
+          "reason": "명시적으로 '헬스케어 AI 스타트업'이 선처방 승인 자동화에 AI를 사용한다고 언급됨."
+        },
+        {
+          "title": "A Market, Not a Mandate, Is the Fastest Way to Bring AI Into Hospitals",
+          "fit": true,
+          "reason": "병원으로의 AI 도입 격차와 AI 채택을 주제로 한 기사임."
+        },
+        {
+          "title": "How Experts Are Reacting to Trump’s Women’s Health Executive Order",
+          "fit": false,
+          "reason": "정책·전문가 반응 보도로 AI 언급 없음."
+        },
+        {
+          "title": "Obesity Biotech Corxel Is Going Public in a Merger as Oral GLP-1 Heads to Phase 3",
+          "fit": false,
+          "reason": "비만·GLP-1 계열 약물 개발 소식으로 AI 관련 내용 없음."
+        },
+        {
+          "title": "Sutter Health Expands Remote Monitoring Program to Patients with Heart Failure",
+          "fit": true,
+          "reason": "원격 모니터링 기술을 프로그램에 추가하는 디지털 헬스 관련 보도임."
+        },
+        {
+          "title": "In a Maternity Care Crisis, CMS Undermines Efforts To Modernize Care",
+          "fit": false,
+          "reason": "산모 진료 현대화 관련 정책 비판 기사로 AI 언급 없음."
+        },
+        {
+          "title": "FDA Alignment Is a Starting Point, Not a Rare Disease Strategy for the European Market",
+          "fit": false,
+          "reason": "희귀질환 규제·임상 전략 논의로 AI 관련 내용이 아님."
+        },
+        {
+          "title": "CareValidate Launches Expanded HRT Offering",
+          "fit": true,
+          "reason": "서비스에 'AI 기반 케어 코디네이션' 포함으로 명시됨."
+        },
+        {
+          "title": "Lycia Lands a $317M IPO for Inflammation Drugs Based on Nobel Prize-Winning Science",
+          "fit": false,
+          "reason": "신약 기반 기업의 IPO 소식으로 AI와 무관함."
+        },
+        {
+          "title": "Congress’s Patient Matching Fix Won’t Work — Here’s What Would",
+          "fit": false,
+          "reason": "환자 매칭 법안과 모델 대안 논의이나 AI/ML 명시 없음."
+        },
+        {
+          "title": "Physician Mental Health and Health System Privacy: Why Doctors Avoid Their Own EHR",
+          "fit": false,
+          "reason": "의사 정신건강·EHR 프라이버시 주제이며 AI 언급 없음."
+        },
+        {
+          "title": "Fractyl’s Weight Maintenance Device Meets Clinical Goal, but Shares Nosedive, Layoffs Follow",
+          "fit": false,
+          "reason": "체중 유지 장치 임상 및 경영 이슈 보도로 AI 관련 없음."
+        },
+        {
+          "title": "Where Are the Biggest Opportunities in Women’s Cardiovascular Health?",
+          "fit": false,
+          "reason": "여성 심혈관 건강 기회 논의로 AI 언급이 없음."
+        }
+      ],
+      "adopted": false,
+      "reject_reasons": [
+        "주간 적합 기사 5.2건 < 7"
+      ],
+      "fit_weekly": 5.2
+    },
+    {
+      "name": "식약처 보도자료",
+      "lang": "KO",
+      "url": "https://www.mfds.go.kr/www/rss/brd.do?brdId=ntc0021",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 29,
+      "freq_7d": 21,
+      "access_rate": 1.0,
+      "topic_fit": 0.05,
+      "fit_samples": [
+        {
+          "title": "[정부합동] 백해무익(百害無益)한 ‘담배’...유해성분 검사 확대, 정보 제출 강화",
+          "fit": false,
+          "reason": "담배 유해성분 검사·정보 제출 확대에 관한 보도로 AI(머신러닝·딥러닝·알고리즘 기반 의료기기 등) 관련 내용 없음."
+        },
+        {
+          "title": "[정부합동] 정부, 국내 판매 담배 465개 제품 유해성분 검사결과 최초 공개",
+          "fit": false,
+          "reason": "국내 판매 담배 제품 검사결과 공개에 관한 보도로 AI 기술 언급 없음."
+        },
+        {
+          "title": "식약처-소비자원, 집중력 강화·키성장 효과 내세운 해외직구식품 공동조사 결과 발표",
+          "fit": false,
+          "reason": "해외직구식품의 효능표시에 대한 조사 결과로, AI 관련 내용이 아님."
+        },
+        {
+          "title": "식약처, 김장철 대비 단순처리 농·수산물 생산업체 위생점검",
+          "fit": false,
+          "reason": "농·수산물 생산업체 위생점검에 관한 보도로 AI 기술과 무관함."
+        },
+        {
+          "title": "식약처, 제2회 특별성과 2개 사례 선정",
+          "fit": false,
+          "reason": "식약처 내부 성과 선정에 대한 보도로 AI 기술 언급 없음."
+        },
+        {
+          "title": "식약처, 커피·치킨 등 조리·판매 편의점 및 무인 식품판매점 점검결과...33곳 적발",
+          "fit": false,
+          "reason": "편의점·무인 식품판매점 점검결과 관련 보도로 AI 기술과 직접적 관련 없음."
+        },
+        {
+          "title": "[보도참고] 식약처, 국제식품규격위원회(CODEX)에서 식품오염물질 국제 기준 논의 주도",
+          "fit": false,
+          "reason": "국제식품규격위원회(CODEX) 논의 주도에 관한 보도로 AI와 무관함."
+        },
+        {
+          "title": "[보도참고] 식약처, '식품첨가물 향료 바로 알기：자주 묻는 질의·응답집' 발간",
+          "fit": false,
+          "reason": "식품첨가물 향료 Q&A 발간 관련 보도로 AI 기술 관련 내용 없음."
+        },
+        {
+          "title": "[보도참고] 식약처, 동등생물의약품(바이오시밀러) 평가 가이드라인 개정",
+          "fit": false,
+          "reason": "동등생물의약품(바이오시밀러) 평가 가이드라인 개정에 관한 보도로 AI 언급 없음."
+        },
+        {
+          "title": "[보도참고] 카드뮴 기준 초과 검출된 '가공김' 회수 조치",
+          "fit": false,
+          "reason": "가공김 회수 조치(중금속 초과검출)에 관한 보도로 AI와 무관함."
+        },
+        {
+          "title": "식약처, 바이오의약품 원료물질 인증제도 현장과 함께 만든다",
+          "fit": false,
+          "reason": "바이오의약품 원료물질 인증제도 관련 보도로 AI 기술 관련 내용이 아님."
+        },
+        {
+          "title": "식약처, 수험생 대상 ‘집중력 향상’ 등 부당광고한 23개 업소 적발",
+          "fit": false,
+          "reason": "부당광고 적발 관련 보도로 AI 기술 언급 없음."
+        },
+        {
+          "title": "[보도참고] 식약처, 최신의 디지털의료기기 허가심사 기준 짚어준다",
+          "fit": true,
+          "reason": "디지털의료기기 허가심사 기준과 관련된 보도로 알고리즘 기반 의료기기·디지털헬스(예: AI 의료기기)와 직접 관련됨."
+        },
+        {
+          "title": "[보도참고] 개인용 의료기기, '더 쉽고', '더 안전하게' 사용하는 방법 알려드려요",
+          "fit": false,
+          "reason": "개인용 의료기기 사용법 안내에 관한 보도로 AI·알고리즘 기반 의료기기 언급이 명확하지 않음."
+        },
+        {
+          "title": "식약처, 감미료 사용 저당 식품의 혈당 관련 기능성 표시 제한",
+          "fit": false,
+          "reason": "감미료 사용 저당식품의 기능성 표시 제한 관련 보도로 AI 기술과 무관함."
+        },
+        {
+          "title": "[보도참고] 메탄올 초과 검출된 ‘일반증류주’ 회수 조치",
+          "fit": false,
+          "reason": "일반증류주 메탄올 초과 검출 회수 조치에 관한 보도로 AI와 무관함."
+        },
+        {
+          "title": "건강기능식품 기능성 원료 안전관리 강화·영양성분 원료 확대 등 기준 정비",
+          "fit": false,
+          "reason": "건강기능식품 원료 안전관리 및 기준 정비에 관한 보도로 AI 기술 언급 없음."
+        },
+        {
+          "title": "식약처, 세계를 선도하는 규제합리화로 K-바이오 성장에 속도를 더한다",
+          "fit": false,
+          "reason": "규제합리화로 K-바이오 성장 촉진에 관한 정책 보도로 AI 관련 내용이 명시되지 않음."
+        },
+        {
+          "title": "[정부합동] '성장에 날개를, 민생에 활력을, 지역에 미래를' 대통령 주재 규제합리화위원회 제2차 전체회의 개최",
+          "fit": false,
+          "reason": "대통령 주재 규제합리화위원회 전체회의 개최 관련 보도로 AI 언급 없음."
+        },
+        {
+          "title": "[보도참고] 식약처, 부산 KIMES에서 의료기기 안전관리 정책 홍보",
+          "fit": false,
+          "reason": "부산 KIMES에서 의료기기 안전관리 정책 홍보에 관한 보도로 AI·알고리즘 기반 의료기기 언급이 없음."
+        }
+      ],
+      "adopted": false,
+      "reject_reasons": [
+        "주간 적합 기사 1.1건 < 7"
+      ],
+      "fit_weekly": 1.1
+    },
+    {
+      "name": "히트뉴스",
+      "lang": "KO",
+      "url": "https://www.hitnews.co.kr/rss/allArticle.xml",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 50,
+      "freq_7d": 50,
+      "adopted": false,
+      "access_rate": 1.0,
+      "topic_fit": 0.05,
+      "fit_samples": [],
+      "note": "1차 실측 콘솔 출력에서 복원. 2차 실측 때 HTTP 403(과다 요청으로 일시 차단)이라 재측정 못 함. 판정 샘플 없음",
+      "fit_weekly": 2.5,
+      "reject_reasons": [
+        "주간 적합 기사 2.5건 < 7"
+      ]
+    },
+    {
+      "name": "청년의사",
+      "lang": "KO",
+      "url": "https://www.docdocdoc.co.kr/rss/allArticle.xml",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 50,
+      "freq_7d": 50,
+      "adopted": true,
+      "access_rate": 1.0,
+      "topic_fit": 0.15,
+      "fit_samples": [],
+      "note": "1차 실측 콘솔 출력에서 복원. 2차 실측 때 HTTP 403(과다 요청으로 일시 차단)이라 재측정 못 함. 판정 샘플 없음",
+      "fit_weekly": 7.5,
+      "reject_reasons": []
+    },
+    {
+      "name": "더바이오",
+      "lang": "KO",
+      "url": "https://www.thebionews.net/rss/allArticle.xml",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 50,
+      "freq_7d": 50,
+      "adopted": true,
+      "access_rate": 1.0,
+      "topic_fit": 0.25,
+      "fit_samples": [],
+      "note": "1차 실측 콘솔 출력에서 복원. 2차 실측 때 HTTP 403(과다 요청으로 일시 차단)이라 재측정 못 함. 판정 샘플 없음",
+      "fit_weekly": 12.5,
+      "reject_reasons": []
+    },
+    {
+      "name": "STAT News · AI 토픽",
+      "lang": "EN",
+      "url": "https://www.statnews.com/topic/artificial-intelligence/feed/",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 20,
+      "freq_7d": 5,
+      "access_rate": 1.0,
+      "topic_fit": 0.65,
+      "fit_samples": [
+        {
+          "title": "STAT+: Why every health care AI company must face Epic",
+          "fit": true,
+          "reason": "Epic의 시장 지배가 헬스케어 AI 기업과 AI 도입에 미치는 영향에 대한 기사입니다."
+        },
+        {
+          "title": "What has actually caused the decline in drug overdose deaths?",
+          "fit": false,
+          "reason": "약물 과다복용 감소 원인 분석으로 AI 관련 내용이 아님."
+        },
+        {
+          "title": "STAT+: As Epic’s dominance grows, its iron grip is choking innovation in health technology",
+          "fit": true,
+          "reason": "Epic의 데이터 접근 제한이 헬스테크·AI 개발자에 미치는 영향을 다루고 있음."
+        },
+        {
+          "title": "STAT+: HHS relaxes security, transparency rules for health record software used by hospitals",
+          "fit": false,
+          "reason": "EHR 보안·투명성 규정 변경 보도이며 AI 적용과 직접 관련 없음."
+        },
+        {
+          "title": "Opinion: Could long-term AI use lead to isolation? We need to find out — but researchers need better access to data",
+          "fit": false,
+          "reason": "챗봇 장기 사용의 사회적 영향에 대한 일반 AI 의견으로 의료·바이오 AI 특정 주제가 아님."
+        },
+        {
+          "title": "STAT+: What’s the deal with Isomorphic Labs?",
+          "fit": true,
+          "reason": "Isomorphic Labs와 AI의 신약 개발 역할에 관한 기사입니다."
+        },
+        {
+          "title": "Kenya reports second Ebola case",
+          "fit": false,
+          "reason": "에볼라 발생 보고로 AI 내용 아님."
+        },
+        {
+          "title": "STAT+: The startup chasing ‘general biological intelligence’",
+          "fit": true,
+          "reason": "'general biological intelligence' 스타트업 등 생물학적 AI 관련 내용임."
+        },
+        {
+          "title": "STAT+: Lobbyists and trade groups fight to shape how states regulate medical AI",
+          "fit": true,
+          "reason": "의료용 AI 규제 형성에 대한 로비 활동을 다룬 기사입니다."
+        },
+        {
+          "title": "The fall of Roe dramatically changed abortion access. This researcher used Reddit to capture how",
+          "fit": true,
+          "reason": "낙태 접근성 연구에서 AI 도구 활용 프레임워크를 다루고 있음."
+        },
+        {
+          "title": "The Nobel boys club (again)",
+          "fit": false,
+          "reason": "노벨 수상자 성별 통계 기사로 AI 관련 내용 없음."
+        },
+        {
+          "title": "STAT+: Why this startup is taking its AI to predict breast cancer risk directly to patients",
+          "fit": true,
+          "reason": "유방암 위험 예측 AI를 환자에게 직접 제공하는 스타트업 관련 기사입니다."
+        },
+        {
+          "title": "STAT+: Why health AI pilots in Utah may be on a collision course with the FDA",
+          "fit": true,
+          "reason": "유타주의 의료 AI 파일럿과 FDA 규제 충돌 가능성을 다룸."
+        },
+        {
+          "title": "STAT+: AstraZeneca opens new Boston site",
+          "fit": false,
+          "reason": "아스트라제네카의 R&D 사이트 개설로 AI 관련 내용 아님."
+        },
+        {
+          "title": "Opinion: I’m a doctor. Here’s what I want the public to know about AI tools and health care costs",
+          "fit": true,
+          "reason": "의사가 의료비와 관련한 AI 도구의 영향에 대해 논의하는 의견글임."
+        },
+        {
+          "title": "STAT+: Utah plows ahead with more health AI pilots for prescriptions, women’s health",
+          "fit": true,
+          "reason": "AI 제품이 처방을 평가·작성하는 파일럿을 다루는 헬스 AI 기사입니다."
+        },
+        {
+          "title": "Opinion: Will Claude ever win a Nobel Prize for medicine?",
+          "fit": false,
+          "reason": "LLM의 노벨 수상 가능성에 대한 의견으로 의료·바이오 AI 적용과 직접적 관련 없음."
+        },
+        {
+          "title": "Opinion: Claude analyzed my genome in 30 minutes. Now we need standards for the results",
+          "fit": true,
+          "reason": "Claude가 게놈을 분석한 사례로 유전체·의료 AI 관련 기사입니다."
+        },
+        {
+          "title": "STAT+: HHS announces new efforts to speed up, expand clinical trials with AI",
+          "fit": true,
+          "reason": "임상시험을 AI로 가속화하려는 HHS의 정책을 다루고 있음."
+        },
+        {
+          "title": "STAT+: What health tech leaders are talking about in Washington policy circles",
+          "fit": true,
+          "reason": "워싱턴 정책 서클에서의 헬스테크·AI 관련 논의를 다루는 기사입니다."
+        }
+      ],
+      "adopted": false,
+      "reject_reasons": [
+        "빈도 5건/주 < 7",
+        "주간 적합 기사 3.2건 < 7"
+      ],
+      "fit_weekly": 3.2
+    },
+    {
+      "name": "MedCity News · AI 태그",
+      "lang": "EN",
+      "url": "https://medcitynews.com/tag/artificial-intelligence/feed/",
+      "role": "measure",
+      "http_status": 200,
+      "entries": 30,
+      "freq_7d": 0,
+      "access_rate": 1.0,
+      "topic_fit": 0.9,
+      "fit_samples": [
+        {
+          "title": "AI Biotech Iambic Gets $150M in IPO Cash for ‘Molecular Superintelligence’ Drug R&D",
+          "fit": true,
+          "reason": "AI 기반 신약 R&D(‘AI-enabled biotech’, 분자 수준 인텔리전스) 관련 기사임."
+        },
+        {
+          "title": "Startup Arboretum Sprouts, Bringing a Precision Medicine Approach to Common Diseases",
+          "fit": false,
+          "reason": "유전자 검사 데이터 분석·정밀의학 언급은 있으나 AI/머신러닝 사용이 명시되지 않음."
+        },
+        {
+          "title": "Immunology Startup ai3Bio Aims to Redefine What It Means to Reset the Immune System",
+          "fit": false,
+          "reason": "면역학 치료법 개발 기사로 AI/머신러닝 관련 언급이 없음."
+        },
+        {
+          "title": "Imprivata CEO: AI Agents Need the Same Scrutiny as an Unvetted Contract Nurse",
+          "fit": true,
+          "reason": "AI 에이전트의 병원 내 사용과 검증 필요성을 직접 다루고 있음."
+        },
+        {
+          "title": "How Lifepoint Health Is Using AI to Give Nurses Their Time Back",
+          "fit": true,
+          "reason": "앰비언트 리스닝·AI 기반 환자 우선순위화 등 AI 활용을 설명함."
+        },
+        {
+          "title": "Hospitals Are All In on AI, but Testing and Oversight Haven’t Caught Up",
+          "fit": true,
+          "reason": "병원이 도입한 AI 도구의 테스트·감독 문제를 다루는 기사임."
+        },
+        {
+          "title": "Ambient Scribes Improve Clinician Retention, Cleveland Clinic Research Shows",
+          "fit": true,
+          "reason": "AI 기반 음성 기록(ambient scribe) 도입 효과를 보고함."
+        },
+        {
+          "title": "How to Keep Clinicians Satisfied, the Ascension Way",
+          "fit": true,
+          "reason": "임상 행정 업무에 AI 적용 사례(노트작성 외 활용)를 다룸."
+        },
+        {
+          "title": "6 Ways UnityPoint Health Is Trying to Make Clinicians’ Jobs Easier",
+          "fit": true,
+          "reason": "앰비언트 스크라이빙·실시간 추적·AI 차트 리뷰 등 AI 활용을 설명함."
+        },
+        {
+          "title": "Pathos Picks Up Two Cancer Drugs Poised for Clinical Development With AI Agents",
+          "fit": true,
+          "reason": "‘Pathos AI’ 및 AI 에이전트 관련 신약 도입·협업을 다룸."
+        },
+        {
+          "title": "Startup to Acquisition in 2 Years: Grove AI’s Journey to Transform Clinical Trials",
+          "fit": true,
+          "reason": "임상시험 대상자 모집에 음성 AI 에이전트 기술을 사용하는 사례임."
+        },
+        {
+          "title": "What Happens When Patients Trust AI Over Their Doctor?",
+          "fit": true,
+          "reason": "환자가 AI 챗봇을 신뢰할 때의 법적·임상적 문제를 다루는 AI 관련 기사임."
+        },
+        {
+          "title": "Assured Health Secures $19M to Get Providers In-Network Faster with Agentic AI",
+          "fit": true,
+          "reason": "에이전트형 AI로 공급자 자격 검증·보험 등록을 자동화하는 스타트업 기사임."
+        },
+        {
+          "title": "The Same AI That Helps Patients Is Being Used to Attack Them, Hospital Exec Says",
+          "fit": true,
+          "reason": "의료 분야에서 사용되는 AI가 사이버공격에도 활용되는 위험을 설명함."
+        },
+        {
+          "title": "The ‘Bot Vs. Bot’ Dynamic Between Providers & Payers Is Driving Up Costs for Everyone",
+          "fit": true,
+          "reason": "공급자·지불자 간 ‘봇 대 봇’ 자동화(AI) 경쟁이 비용 상승을 유발한다는 내용임."
+        },
+        {
+          "title": "Kaiser Nurses Protest CEO’s AHA Appearance Over AI Concerns",
+          "fit": true,
+          "reason": "간호사들이 조직의 AI 전략에 반대하며 시위를 벌이는 기사임."
+        },
+        {
+          "title": "Former Mayo Clinic Leader Sues System Over Alleged AI Cover-Up: 6 Things to Know",
+          "fit": true,
+          "reason": "Mayo Clinic 내부의 AI 안전·환자 개인정보 문제 제기를 둘러싼 소송 기사임."
+        },
+        {
+          "title": "Documentation Tools Aren’t Just for Doctors: Inside Reid Health’s Deployment of Abridge’s Nurse Tech",
+          "fit": true,
+          "reason": "Abridge의 AI 기반 문서화 기술을 간호사에 배치한 사례 기사임."
+        },
+        {
+          "title": "How Is Mayo Clinic Using AI in Its Revenue Cycle?",
+          "fit": true,
+          "reason": "Mayo Clinic의 수익 주기(revenue cycle)에 AI 적용을 다루는 기사임."
+        },
+        {
+          "title": "What Is AI Getting Right — and Wrong — in Healthcare’s Revenue Cycle?",
+          "fit": true,
+          "reason": "수익 주기에서 AI가 잘하고 못하는 점을 분석하는 AI 관련 기사임."
+        }
+      ],
+      "adopted": false,
+      "reject_reasons": [
+        "빈도 0건/주 < 7",
+        "주간 적합 기사 0.0건 < 7"
+      ],
+      "fit_weekly": 0.0
+    },
+    {
+      "name": "더바이오 · 헬스케어·AI",
+      "lang": "KO",
+      "url": "https://www.thebionews.net/rss/S1N4.xml",
+      "role": "measure",
+      "http_status": 403,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": null,
+      "note": "섹션 피드 탐색 직후 HTTP 403(과다 요청으로 일시 차단)이라 측정 못 함"
+    },
+    {
+      "name": "히트뉴스 · 의료기기",
+      "lang": "KO",
+      "url": "https://www.hitnews.co.kr/rss/S2N28.xml",
+      "role": "measure",
+      "http_status": 403,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": null,
+      "note": "섹션 피드 탐색 직후 HTTP 403(과다 요청으로 일시 차단)이라 측정 못 함"
+    },
+    {
+      "name": "의학신문",
+      "lang": "KO",
+      "url": "http://www.bosa.co.kr/rss/allArticle.xml",
+      "role": "reserve",
+      "http_status": 200,
+      "entries": 50,
+      "freq_7d": 50,
+      "adopted": null
+    },
+    {
+      "name": "의협신문",
+      "lang": "KO",
+      "url": "https://www.doctorsnews.co.kr/rss/allArticle.xml",
+      "role": "reserve",
+      "http_status": 200,
+      "entries": 50,
+      "freq_7d": 50,
+      "adopted": null
+    },
+    {
+      "name": "Endpoints News",
+      "lang": "EN",
+      "url": "https://endpts.com/feed/",
+      "role": "reserve",
+      "http_status": 403,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": null
+    },
+    {
+      "name": "Healthcare Dive",
+      "lang": "EN",
+      "url": "https://www.healthcaredive.com/feeds/news/",
+      "role": "reserve",
+      "http_status": 200,
+      "entries": 10,
+      "freq_7d": 10,
+      "adopted": null
+    },
+    {
+      "name": "Fierce Biotech",
+      "lang": "EN",
+      "url": "https://www.fiercebiotech.com/rss/xml",
+      "role": "rss_fail",
+      "http_status": 403,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": false,
+      "reject_reasons": [
+        "RSS 수집 불가 (HTTP 403, 항목 0건)"
+      ]
+    },
+    {
+      "name": "MobiHealthNews",
+      "lang": "EN",
+      "url": "https://www.mobihealthnews.com/feed",
+      "role": "rss_fail",
+      "http_status": 403,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": false,
+      "reject_reasons": [
+        "RSS 수집 불가 (HTTP 403, 항목 0건)"
+      ]
+    },
+    {
+      "name": "Healthcare IT News",
+      "lang": "EN",
+      "url": "https://www.healthcareitnews.com/home/feed",
+      "role": "rss_fail",
+      "http_status": 403,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": false,
+      "reject_reasons": [
+        "RSS 수집 불가 (HTTP 403, 항목 0건)"
+      ]
+    },
+    {
+      "name": "메디게이트뉴스",
+      "lang": "KO",
+      "url": "https://www.medigatenews.com/rss/allArticle.xml",
+      "role": "rss_fail",
+      "http_status": 200,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": false,
+      "reject_reasons": [
+        "RSS 수집 불가 (HTTP 200, 항목 0건)"
+      ]
+    },
+    {
+      "name": "메디포뉴스",
+      "lang": "KO",
+      "url": "https://www.medifonews.com/rss/allArticle.xml",
+      "role": "rss_fail",
+      "http_status": 404,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": false,
+      "reject_reasons": [
+        "RSS 수집 불가 (HTTP 404, 항목 0건)"
+      ]
+    },
+    {
+      "name": "메디컬타임즈",
+      "lang": "KO",
+      "url": "https://www.medicaltimes.com/rss/allArticle.xml",
+      "role": "rss_fail",
+      "http_status": 404,
+      "entries": 0,
+      "freq_7d": 0,
+      "adopted": false,
+      "reject_reasons": [
+        "RSS 수집 불가 (HTTP 404, 항목 0건)"
+      ]
+    },
+    {
+      "name": "Lancet Digital Health",
+      "lang": "EN",
+      "url": "https://www.thelancet.com/rssfeed/landig_current.xml",
+      "role": "rss_fail",
+      "http_status": 200,
+      "entries": 12,
+      "freq_7d": 0,
+      "adopted": false,
+      "reject_reasons": [
+        "빈도 0건/주 < 7"
+      ]
+    },
+    {
+      "name": "Hugging Face Blog",
+      "lang": "EN",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "role": "rss_fail",
+      "http_status": 200,
+      "entries": 891,
+      "freq_7d": 6,
+      "adopted": false,
+      "reject_reasons": [
+        "빈도 6건/주 < 7"
+      ]
+    }
+  ],
+  "rejudged_at": "2026-10-29T07:15:39.485368+00:00"
+}
