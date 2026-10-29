@@ -6,7 +6,7 @@ from typing import Literal
 import requests
 import trafilatura
 from openai import OpenAI
-from pydantic import BaseModel
+from pydantic import BaseModel, create_model
 
 import metrics
 from state import NewsState
@@ -99,19 +99,10 @@ def extract_body(state: NewsState) -> dict:
     return {"bodies": bodies}
 
 
-class Score(BaseModel):
-    id: str
-    practicality: int
-    novelty: int
-    impact: int
-    credibility: int
-
-
-class RankOut(BaseModel):
-    scores: list[Score]
-
-
-def score_items(client, state: NewsState, items: list[dict]) -> dict[str, Score]:
+def score_items(client, state: NewsState, items: list[dict]) -> dict:
+    axes = state["config"]["selection"]["final_axes"]  # {축 이름: 설명}
+    Score = create_model("Score", id=(str, ...), **{k: (int, ...) for k in axes})
+    RankOut = create_model("RankOut", scores=(list[Score], ...))
     # 긴 해시 id는 옮겨 적다 틀리는 경우가 있어 A1, A2… 짧은 키로 묻고 되돌린다
     keys = {f"A{n}": it["id"] for n, it in enumerate(items, 1)}
     listing = "\n\n".join(f"[{k}] ({it['source']}) {it['title']}\n{state['bodies'][it['id']][:BODY_FOR_RANK]}"
@@ -122,10 +113,7 @@ def score_items(client, state: NewsState, items: list[dict]) -> dict[str, Score]
             {"role": "system", "content": (
                 f"'{state['config']['newsletter_name']}' 뉴스레터의 본선 심사관이다. "
                 "오늘 후보들을 서로 비교해 각 축을 1~5점으로 매긴다.\n"
-                + persona_prompt(state["config"]) +
-                "\npracticality: 독자가 이번 주에 직접 써볼 수 있는가(코드·데이터·모델 공개)"
-                "\nnovelty: 새로운 사실·방법인가\nimpact: 독자의 커리어·프로젝트·시장에 미치는 영향"
-                "\ncredibility: 근거 수준(동료심사 > 프리프린트 > 보도자료), 수치·출처의 구체성"
+                + persona_prompt(state["config"]) + "".join(f"\n{k}: {v}" for k, v in axes.items()) +
                 "\n모든 후보를 한 번씩만 채점하고, 대괄호 안 id를 그대로 적는다.")},
             {"role": "user", "content": listing},
         ],

@@ -1,22 +1,32 @@
-"""summarize: 본문 기반 한국어 제목·요약 3줄·인사이트 (검수 실패 기사는 실패 사유를 넣어 재생성)"""
+"""summarize: 본문 기반 한국어 제목·요약 3줄·카드 항목 (검수 실패 기사는 실패 사유를 넣어 재생성)
+
+카드 항목과 근거 수준 태그는 audience.yaml의 card 설정을 따른다.
+"""
 import os
 from typing import Literal
 
 from openai import OpenAI
-from pydantic import BaseModel
+from pydantic import create_model
 
 from state import NewsState
 
 BODY_FOR_SUMMARY = 8000
 
 
-class Draft(BaseModel):
-    title: str
-    summary: list[str]
-    dev_action: str
-    market_context: str
-    limits: str
-    evidence: Literal["동료심사 논문", "프리프린트", "보도자료", "기사"]
+def draft_model(card: dict):
+    fields = {"title": (str, ...), "summary": (list[str], ...)}
+    fields |= {f["key"]: (str, ...) for f in card["fields"]}
+    if card.get("evidence"):
+        fields["evidence"] = (Literal[tuple(card["evidence"])], ...)
+    return create_model("Draft", **fields)
+
+
+def field_rules(card: dict) -> str:
+    lines = [f"- {f['key']}: {f['instruction']}" + (". 없으면 빈 문자열" if f.get("optional") else "")
+             for f in card["fields"]]
+    if card.get("evidence"):
+        lines.append(f"- evidence: 근거 수준 ({card.get('evidence_hint', '')})")
+    return "\n".join(lines)
 
 
 def pending(state: NewsState) -> list[str]:
@@ -26,9 +36,10 @@ def pending(state: NewsState) -> list[str]:
 
 
 def summarize(state: NewsState) -> dict:
+    cfg = state["config"]
     items = {it["id"]: it for it in state["candidates"]}
     drafts = dict(state.get("drafts", {}))
-    client = OpenAI()
+    client, Draft = OpenAI(), draft_model(cfg["card"])
     for item_id in pending(state):
         it = items[item_id]
         history = state.get("review_results", {}).get(item_id, [])
@@ -37,14 +48,12 @@ def summarize(state: NewsState) -> dict:
             model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
             messages=[
                 {"role": "system", "content": (
-                    f"'{state['config']['newsletter_name']}' 뉴스레터 편집자다. "
-                    f"독자: {state['config']['persona']['who']}. 아래 본문에 있는 사실만 쓴다.\n"
-                    "- title: 한국어 제목 (영문 기사도 번역, 40자 이내)\n"
-                    "- summary: 핵심 요약 정확히 3문장, 한국어. 수치·날짜·고유명사(기관·제품·모델명)는 원문 표기 그대로\n"
-                    "- dev_action: 독자가 이번 주에 해볼 수 있는 것 1개 (본문 근거가 없으면 '관련 공개 자료 확인' 수준으로)\n"
-                    "- market_context: 시장·규제 맥락에서 왜 중요한지 1문장. 본문에 없는 승인·입증·성과를 단정하지 않는다\n"
-                    "- limits: 표본 수, 외부 검증 부재 등 본문에서 드러나는 한계. 없으면 빈 문자열\n"
-                    "- evidence: 근거 수준 (arXiv는 프리프린트, 학술지 논문은 동료심사 논문)")},
+                    f"'{cfg['newsletter_name']}' 뉴스레터 편집자다. "
+                    f"독자: {cfg['persona']['who']}. 아래 본문에 있는 사실만 쓴다. 모든 항목은 한국어로 쓴다.\n"
+                    "- title: 한국어 제목 (외국어 기사도 번역, 40자 이내)\n"
+                    "- summary: 핵심 요약 정확히 3문장. 수치·날짜와 이름(기관·제품·모델·사람·동물 이름)만 원문 표기 그대로, "
+                    "일반 용어·설명은 한국어로 번역\n"
+                    + field_rules(cfg["card"]))},
                 {"role": "user", "content": (
                     f"출처: {it['source']}\n원문 제목: {it['title']}\n\n본문:\n"
                     f"{state['bodies'][item_id][:BODY_FOR_SUMMARY]}{feedback}")},

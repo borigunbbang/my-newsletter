@@ -19,9 +19,9 @@ NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "
                 "nineteen", "twenty"]
 
 
-def rule_check(draft: dict, body: str) -> list[str]:
+def rule_check(draft: dict, body: str, card: dict) -> list[str]:
     fails = []
-    text = " ".join([draft["title"], *draft["summary"], draft["market_context"], draft["limits"]])
+    text = " ".join([draft["title"], *draft["summary"], *(draft[f["key"]] for f in card["fields"])])
     # 원문이 'ten'처럼 영어 단어로 쓴 수는 숫자로도 인정 (요약은 한국어라 '10개'로 옮기므로)
     words = {str(n) for n, w in enumerate(NUMBER_WORDS) if re.search(rf"\b{w}\b", body, re.I)}
     flat_body = body.replace(",", "") + " " + " ".join(words)
@@ -36,7 +36,8 @@ def rule_check(draft: dict, body: str) -> list[str]:
             fails.append(f"본문에 없는 고유명사: {word}")
     if len(draft["summary"]) != 3 or not all(s.strip() for s in draft["summary"]):
         fails.append("요약이 3문장이 아님")
-    for field in ("title", "dev_action", "market_context"):
+    required = ["title"] + [f["key"] for f in card["fields"] if not f.get("optional")]
+    for field in required:
         if not draft[field].strip():
             fails.append(f"빈 필드: {field}")
     return fails
@@ -53,8 +54,9 @@ class ReviewOut(BaseModel):
     insight_issues: list[str]
 
 
-def llm_check(client, draft: dict, body: str) -> ReviewOut:
+def llm_check(client, draft: dict, body: str, card: dict) -> ReviewOut:
     lines = "\n".join(f"[{i}] {s}" for i, s in enumerate(draft["summary"]))
+    extras = "\n".join(f"{f['label']}: {draft[f['key']]}" for f in card["fields"])
     res = client.chat.completions.parse(
         model=os.getenv("OPENAI_MODEL", "gpt-5-mini"),
         messages=[
@@ -62,11 +64,11 @@ def llm_check(client, draft: dict, body: str) -> ReviewOut:
                 "너는 요약을 쓰지 않은 독립 검수관이다. 본문만 근거로 판정한다.\n"
                 "1) 요약 문장마다 근거가 되는 본문 문장을 quote에 원문 그대로 인용하고 판정한다: "
                 "SUPPORTED(본문이 뒷받침), UNSUPPORTED(본문에 근거 없음), CONTRADICTED(본문과 모순). 번역 표현 차이는 허용.\n"
-                "2) 인사이트(개발자 관점·시장 맥락·한계)는 본문과 모순되거나 과장하는지만 본다. "
-                "예: 승인되지 않았는데 '승인', 프리프린트를 '입증'. 문제가 있으면 insight_issues에 한국어로 적고, 없으면 빈 리스트.")},
+                "2) 요약 외 카드 항목은 본문과 모순되거나 과장하는지만 본다. "
+                "예: 승인되지 않았는데 '승인', 예비 결과를 '입증', 본문에 없는 효과·사실을 단정. "
+                "문제가 있으면 insight_issues에 한국어로 적고, 없으면 빈 리스트.")},
             {"role": "user", "content": (
-                f"본문:\n{body[:BODY_FOR_SUMMARY]}\n\n요약 문장:\n{lines}\n\n"
-                f"개발자 관점: {draft['dev_action']}\n시장 맥락: {draft['market_context']}\n한계: {draft['limits']}")},
+                f"본문:\n{body[:BODY_FOR_SUMMARY]}\n\n요약 문장:\n{lines}\n\n카드 항목:\n{extras}")},
         ],
         response_format=ReviewOut,
     )
@@ -95,8 +97,8 @@ def review(state: NewsState) -> dict:
 
     for item_id in pending(state):
         draft, body = state["drafts"][item_id], state["bodies"][item_id]
-        rule_fail = rule_check(draft, body)
-        judged = llm_check(client, draft, body)
+        rule_fail = rule_check(draft, body, state["config"]["card"])
+        judged = llm_check(client, draft, body, state["config"]["card"])
         verdicts = [s.verdict for s in judged.sentences]
         counts = {v: verdicts.count(v) for v in ("SUPPORTED", "UNSUPPORTED", "CONTRADICTED")}
         ok = (not rule_fail and counts["SUPPORTED"] == len(draft["summary"])
